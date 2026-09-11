@@ -23,13 +23,6 @@ resource "google_container_cluster" "this" {
   workload_identity_config {
     workload_pool = "${var.GOOGLE_PROJECT}.svc.id.goog"
   }
-
-  # Node configuration for metadata
-  node_config {
-    workload_metadata_config {
-      mode = "GKE_METADATA"
-    }
-  }
 }
 
 # Create a custom node pool for the GKE cluster
@@ -49,6 +42,11 @@ resource "google_container_node_pool" "this" {
   node_config {
     # Machine type for the nodes
     machine_type = var.GKE_MACHINE_TYPE
+
+    # Workload Identity metadata configuration
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
   }
 }
 
